@@ -10,7 +10,7 @@ const createProduct = async ({
 }: { 
   data: ProductSchemaType; 
 }): Promise<IProductProps> => {
-  return api.post("/products/add", data).then(response => response.data);
+  return api.post("products/add", data).then(response => response.data);
 } 
 
 type UseCreateProductOptions = {

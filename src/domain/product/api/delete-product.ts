@@ -7,7 +7,7 @@ const deleteProduct = ({
 }: { 
   id: number;
 }): Promise<void> => {
-  return api.delete(`/products/${id}`);
+  return api.delete(`products/${id}`);
 } 
 
 type UseDeleteProductOptions = {

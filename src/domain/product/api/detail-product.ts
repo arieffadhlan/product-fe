@@ -7,7 +7,7 @@ import { IProductProps } from "../product";
 const getProductDetail = async (
   id?: number
 ): Promise<IProductProps> => {
-  const { data } = await api.get<IProductProps>(`/products/${id}`);
+  const { data } = await api.get<IProductProps>(`products/${id}`);
   await new Promise(resolve => setTimeout(resolve, 300));
 
   return data; 

@@ -12,7 +12,7 @@ const updateProduct = async ({
   id: number;
   updatedData: ProductSchemaType;
 }): Promise<IProductProps> => {
-  const response = await api.put<IProductProps>(`/products/${id}`, updatedData);
+  const response = await api.put<IProductProps>(`products/${id}`, updatedData);
   return response.data;
 } 
 

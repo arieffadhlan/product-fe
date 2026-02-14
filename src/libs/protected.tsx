@@ -1,29 +1,26 @@
 import { useEffect } from "react";
-import { cookieStorage } from "@/utils/cookies";
-import { Navigate, useLocation } from "react-router";
 import { useAuthStore } from "@/store/auth-store";
+import { Navigate, useLocation } from "react-router";
 
 export default function ProtectedLayout({ children }: { children?: React.ReactNode }) {
   const location = useLocation();
-  const { isAuthenticated, clearAll } = useAuthStore();
   
-  const hasToken = !!cookieStorage.getAccessToken();
-  const isAdminRoute = location.pathname.startsWith("/admin");
-  const isGuestRoute = location.pathname === "/";
+  const { isAuthenticated, clearAll } = useAuthStore();
+  const isProtectedRoute = location.pathname.startsWith("/admin");
   
   useEffect(() => {
-    if (!isAuthenticated && !hasToken) {
+    if (!isAuthenticated) {
       clearAll();
     }
-  }, [isAuthenticated, hasToken, clearAll]);
+  }, [isAuthenticated, clearAll]);
   
-  if (isGuestRoute && isAuthenticated) {
-    return <Navigate to="/admin" replace />;
+  if (location.pathname === "/" && isAuthenticated) {
+    return <Navigate to="/home" replace />;
   }
   
-  if (isAdminRoute && !isAuthenticated) {
+  if (isProtectedRoute && !isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 }

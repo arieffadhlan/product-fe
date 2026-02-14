@@ -5,7 +5,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { IAuthUser } from "../auth";
 
 const getMe = async (): Promise<IAuthUser> => {
-  const { data }= await api.get<IAuthUser>(`/auth/me`);
+  const { data }= await api.get<IAuthUser>(`auth/me`);
   return data; 
 }
 

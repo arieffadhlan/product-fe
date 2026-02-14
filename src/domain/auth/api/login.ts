@@ -11,7 +11,7 @@ const login = async ({
 } : {
   data: LoginSchemaType
 }): Promise<IAuthProps> => {
-  const response = await api.post<IAuthProps>("/auth/login", { 
+  const response = await api.post<IAuthProps>("auth/login", { 
     username: data.username,
     password: data.password,
     expiresInMins: 30, // optional, defaults to 60

@@ -89,7 +89,7 @@ This project uses [DummyJSON](https://dummyjson.com) as a mock backend API. Plea
 - **dayjs**
 - **uuid**
 
-## 🚀 Getting Started
+## � Getting Started
 
 ### Prerequisites
 - Node.js 18+ or Bun
