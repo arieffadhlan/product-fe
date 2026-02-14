@@ -3,9 +3,6 @@ import { cookieStorage } from "@/utils/cookies";
 import { env } from "@/config/env";
 
 const getBaseURL = () => {
-  if (import.meta.env.DEV) {
-    return "/api"; // Proxied to https://dummyjson.com
-  }
   return env.API_URL;
 };
 
