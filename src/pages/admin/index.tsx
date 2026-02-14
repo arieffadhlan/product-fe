@@ -1,7 +1,7 @@
+import TopBar from "@/components/containers/top-bar";
 import { HomeIcon } from "lucide-react";
 import { BreadcrumbMenus } from "@/components/breadcrumb-menus";
 import Container from "@/components/container";
-import TopBar from "@/components/containers/top-bar";
 import { useAuthStore } from "@/store/auth-store";
 
 export default function Home() {

@@ -1,12 +1,12 @@
-import { valibotResolver } from "@hookform/resolvers/valibot";
-import { User } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/button";
+import { User } from "lucide-react";
+import { useLogin } from "../api/login";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { getErrorMessage } from "@/utils/error";
 import { Input } from "@/components/input";
 import { InputPassword } from "@/components/input-password";
-import { getErrorMessage } from "@/utils/error";
-import { useLogin } from "../api/login";
-import { LoginSchema, type LoginSchemaType } from "../auth-validation";
+import { LoginSchemaType, LoginSchema } from "../auth-validation";
+import { Button } from "@/components/button";
 
 export default function LoginForm() {
   const {
@@ -23,18 +23,21 @@ export default function LoginForm() {
     defaultValues: {
       username: "emilys",
       password: "emilyspass",
-    },
+    }
   });
-
+  
   const mutation = useLogin();
   const onSubmit = async (data: LoginSchemaType) => {
     try {
       await mutation.mutateAsync({ data });
     } catch (error) {
-      setError("username", { message: getErrorMessage(error) }, { shouldFocus: true });
+      setError("username", 
+        { message: getErrorMessage(error) }, 
+        { shouldFocus: true }
+      );
     }
-  };
-
+  }
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-[480px] w-full pt-6 space-y-6 rounded-xl">
       <Input
@@ -43,7 +46,7 @@ export default function LoginForm() {
         label="Username"
         error={errors.username?.message}
         {...register("username")}
-      />
+        />
       <InputPassword
         placeholder="Input password"
         label="Password"
@@ -55,7 +58,7 @@ export default function LoginForm() {
         text="Submit"
         type="submit"
         className="mt-2"
-        fullWidth
+        fullWidth={true}
         load={mutation.isPending}
         disabled={mutation.isPending}
       />

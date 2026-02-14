@@ -1,6 +1,6 @@
-import { SearchIcon } from "lucide-react";
-import { type ComponentProps, forwardRef } from "react";
 import { cn } from "@/utils/cn";
+import { SearchIcon }from "lucide-react";
+import { forwardRef, type ComponentProps } from "react";
 
 interface SearchProps extends ComponentProps<"input"> {
   className?: string;
@@ -8,10 +8,16 @@ interface SearchProps extends ComponentProps<"input"> {
 }
 
 const Search = forwardRef<HTMLInputElement, SearchProps>(
-  ({ id, disabled, readOnly, className = "", containerClassName = "", ...props }, ref) => {
+  ({ 
+    id,
+    disabled,
+    readOnly,
+    className = "",
+    containerClassName = "", 
+    ...props 
+  }, ref) => {
     return (
-      <div
-        className={cn(
+      <div className={cn(
           "flex flex-row items-center transition-[border-color] duration-[170ms] ease-linear group focus-within:border-neutral-9 relative w-full h-[46px] gap-x-3 border border-neutral-5 rounded-lg overflow-hidden bg-white",
           containerClassName
         )}
@@ -20,8 +26,7 @@ const Search = forwardRef<HTMLInputElement, SearchProps>(
         <input
           id={id}
           inputMode="search"
-          className={cn(
-            "flex-1 w-full h-full pl-10 pr-3 outline-none text-sm text-neutral-9 placeholder:text-neutral-6 disabled:pointer-events-none disabled:select-none",
+          className={cn("flex-1 w-full h-full pl-10 pr-3 outline-none text-sm text-neutral-9 placeholder:text-neutral-6 disabled:pointer-events-none disabled:select-none",
             className
           )}
           ref={ref}
@@ -36,4 +41,4 @@ const Search = forwardRef<HTMLInputElement, SearchProps>(
   }
 );
 
-export { Search };
+export { Search }

@@ -1,32 +1,42 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/libs/api";
-import type { TQueryConfig } from "@/libs/react-query";
+import { TQueryConfig } from "@/libs/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import type { IProductProps } from "../product";
+import { IProductProps } from "../product";
 
-const getProductDetail = async (id?: number): Promise<IProductProps> => {
+const getProductDetail = async (
+  id?: number
+): Promise<IProductProps> => {
   const { data } = await api.get<IProductProps>(`/products/${id}`);
-  return data;
-};
+  await new Promise(resolve => setTimeout(resolve, 300));
 
-const getProductDetailQueryOptions = (id?: number) => {
+  return data; 
+}
+
+const getProductDetailQueryOptions= (id?: number) => {
   return queryOptions({
     queryKey: ["products", id],
-    queryFn: () => getProductDetail(id),
-    enabled: !!id,
+    queryFn : () => getProductDetail(id),
   });
 };
 
 interface UseDetailProductOptions {
   id?: number;
   queryConfig?: TQueryConfig<typeof getProductDetailQueryOptions>;
-}
+};
 
-const useProductDetail = ({ id, queryConfig }: UseDetailProductOptions) => {
+const useProductDetail = ({ 
+  id, 
+  queryConfig,
+}: UseDetailProductOptions) => {
   return useQuery({
     ...getProductDetailQueryOptions(id),
     ...queryConfig,
   });
-};
+}
 
-export { useProductDetail, getProductDetail, getProductDetailQueryOptions };
+export {
+  useProductDetail,
+  getProductDetail,
+  getProductDetailQueryOptions,
+}

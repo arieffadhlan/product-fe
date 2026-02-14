@@ -5,7 +5,7 @@ type UseConfirmOptions = {
   message?: string;
   btnText?: string;
   onCancel?: () => void;
-  onSubmit?: () => Promise<void>;
+  onSubmit?: () => Promise<void> | void;
 };
 
 export type UseModalConfirmReturn = {

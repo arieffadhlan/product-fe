@@ -1,35 +1,31 @@
 import { Layers } from "lucide-react";
 import { useSearchParams } from "react-router";
 import { BreadcrumbMenus } from "@/components/breadcrumb-menus";
-import Container from "@/components/container";
-import TopBar from "@/components/containers/top-bar";
-import FilterData from "@/components/filterdata";
 import LoaderData from "@/components/loaderdata";
-import ModalFailed from "@/components/modals/modal-failed";
-import ModalSubmit from "@/components/modals/modal-submit";
-import ModalSucces from "@/components/modals/modal-succes";
 import Pagination from "@/components/pagination";
 import { Search } from "@/components/search";
 import { useGetProducts } from "@/domain/product/api/get-products";
+import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
+import Filter from "@/components/filter";
+import TopBar from "@/components/containers/top-bar";
 import CreateProduct from "@/domain/product/components/create-product";
 import ProductsTable from "@/domain/product/components/products-table";
+import Container from "@/components/container";
 import { useDebounceSearch } from "@/hooks/use-debounce-search";
-import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
-import { useModalStore } from "@/hooks/use-modal-store";
 import { updateSearchParam } from "@/utils/url";
+import ModalFailed from "@/components/modals/modal-failed";
+import ModalSubmit from "@/components/modals/modal-submit";
+import ModalSuccess from "@/components/modals/modal-success";
+import { useModalStore } from "@/hooks/use-modal-store";
 
 export default function Product() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const {
-    data: productsResponse,
-    isFetching: productsLoading,
-    isSuccess: productsSuccess,
-  } = useGetProducts({
+  const { data: productsResponse, isFetching: productsLoading, isSuccess: productsSuccess } = useGetProducts({
     queryParams: {
       q: searchParams.get("search") || undefined,
       skip: +(searchParams.get("skip") || 0),
       sortBy: searchParams.get("sortBy") || undefined,
-      limit: +(searchParams.get("limit") || 10),
+      limit:+(searchParams.get("limit") || 10),
       order: (searchParams.get("order") as "asc" | "desc") || undefined,
     },
   });
@@ -67,7 +63,7 @@ export default function Product() {
       }
     : undefined;
 
-  const modalSucces = useModalStore("modalSuccesProduct");
+  const modalSuccess = useModalStore("modalSuccessProduct");
   const modalFailed = useModalStore("modalFailedProduct");
   const modalSubmit = useModalConfirmStore("modalSubmitProduct");
 
@@ -83,7 +79,7 @@ export default function Product() {
           <p className="font-[600] text-[24px] text-black">Products</p>
           <CreateProduct />
         </div>
-        <FilterData>
+        <Filter>
           <Search
             disabled={false}
             onChange={(e) => handleSearch(e.target.value.trim())}
@@ -91,21 +87,36 @@ export default function Product() {
             containerClassName="min-w-[256px]"
             placeholder="Search..."
           />
-        </FilterData>
+        </Filter>
         <div className="flex flex-col gap-4">
-          {!productsLoading && productsSuccess && allProduct.length > 0 && (
-            <ProductsTable
-              data={allProduct}
-              sortBy={searchParams.get("sortBy") || undefined}
-              order={(searchParams.get("order") as "asc" | "desc") || undefined}
-              onSort={handleSort}
-            />
+          {!productsLoading && 
+            productsSuccess && 
+            allProduct.length > 0 && (
+              <ProductsTable
+                data={allProduct}
+                sortBy={searchParams.get("sortBy") || undefined}
+                order={(searchParams.get("order") as "asc" | "desc") || undefined}
+                onSort={handleSort}
+              />
           )}
-          <LoaderData data={allProduct} isLoading={productsLoading} colCount={1} rowCount={5} bodyClassName="h-10" />
-          <Pagination data={pagination} loading={productsLoading} />
+          <LoaderData 
+            data={allProduct} 
+            isLoading={productsLoading} 
+            colCount={1}
+            rowCount={5} 
+            bodyClassName="h-10" 
+          />
+          <Pagination 
+            data={pagination} 
+            isLoading={productsLoading} 
+          />
         </div>
       </Container>
-      <ModalFailed setOpen={modalFailed.hideModal} visible={modalFailed.visible} message={modalFailed.message} />
+      <ModalFailed 
+        setOpen={modalFailed.hideModal} 
+        visible={modalFailed.visible} 
+        message={modalFailed.message} 
+      />
       <ModalSubmit
         onSubmit={modalSubmit.onConfirm}
         onCancel={modalSubmit.options.onCancel}
@@ -115,7 +126,11 @@ export default function Product() {
         heading={modalSubmit.options.heading}
         btnText={modalSubmit.options.btnText}
       />
-      <ModalSucces onClose={modalSucces.hideModal} visible={modalSucces.visible} message={modalSucces.message} />
+      <ModalSuccess 
+        onClose={modalSuccess.hideModal} 
+        visible={modalSuccess.visible} 
+        message={modalSuccess.message} 
+      />
     </div>
   );
 }

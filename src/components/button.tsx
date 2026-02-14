@@ -10,10 +10,6 @@ const variantClasses = {
   primary: "text-white bg-[#2866C8] hover:bg-[#245DB6] active:bg-[#1C488E]",
   success: "text-white bg-[#12B569] hover:bg-[#10A560] active:bg-[#0D814B]",
   warning: "text-white bg-[#F79009] hover:bg-[#E18308] active:bg-[#AF6606]",
-  dangersBordered: "text-[#FF0000] bg-[#FFE6E6] [&_svg]:text-[#FF0000]",
-  primaryBordered: "text-[#2866C8] bg-[#EAF0FA] [&_svg]:text-[#2866C8]",
-  successBordered: "text-[#12B569] bg-[#E7F8F0] [&_svg]:text-[#12B569]",
-  warningBordered: "text-[#F79009] bg-[#FEF4E6] [&_svg]:text-[#F79009]",
 } as const;
 
 const sizeClasses = {

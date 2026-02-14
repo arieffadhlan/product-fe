@@ -1,13 +1,13 @@
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils/cn"
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 
-const Table = ({
-  className,
+const Table = ({ 
+  className, 
   containerClassName,
-  ...props
+  ...props 
 }: React.ComponentProps<"table"> & {
-  className?: string;
-  containerClassName?: string;
+  className?: string
+  containerClassName?: string
 }) => {
   return (
     <div className="relative">
@@ -16,7 +16,7 @@ const Table = ({
       </section>
     </div>
   );
-};
+}
 
 const THead = ({ className, ...props }: React.ComponentProps<"thead">) => {
   return (
@@ -26,7 +26,7 @@ const THead = ({ className, ...props }: React.ComponentProps<"thead">) => {
       {...props}
     />
   );
-};
+}
 
 const TBody = ({ className, ...props }: React.ComponentProps<"tbody">) => {
   return (
@@ -36,7 +36,7 @@ const TBody = ({ className, ...props }: React.ComponentProps<"tbody">) => {
       {...props}
     />
   );
-};
+}
 
 const Tr = ({ className, ...props }: React.ComponentProps<"tr">) => {
   return (
@@ -46,57 +46,59 @@ const Tr = ({ className, ...props }: React.ComponentProps<"tr">) => {
       {...props}
     />
   );
-};
+}
 
 const Th = ({ className, ...props }: React.ComponentProps<"th">) => {
   return (
     <th
       data-slot="table-head"
-      className={cn(
-        "px-4 py-3 font-semibold text-left text-sm text-[#1F1F1F] border-[#D0D3D9] whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+      className={cn("px-4 py-3 font-semibold text-left text-sm text-[#1F1F1F] border-[#D0D3D9] whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}
     />
   );
-};
+}
 
 const Td = ({ className, ...props }: React.ComponentProps<"td">) => {
   return (
     <td
       data-slot="table-data"
-      className={cn(
-        "px-4 py-4 font-[400] text-left text-sm text-[#313030] border-[#D0D3D9] whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
-      )}
+      className={cn("px-4 py-4 font-[400] text-left text-sm text-[#313030] border-[#D0D3D9] whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)}
       {...props}
     />
   );
-};
+}
 
-const SortableHeader = ({
-  field,
-  label,
-  sortBy,
-  order,
+const SortableHeader = ({ 
+  field, 
+  label, 
+  sortBy, 
+  order, 
   onSort,
-  className,
-}: {
-  field: string;
-  label: string;
-  sortBy?: string;
-  order?: "asc" | "desc";
+  className 
+}: { 
+  field: string; 
+  label: string; 
+  sortBy?: string; 
+  order?: "asc" | "desc"; 
   className?: string;
   onSort?: (field: string) => void;
 }) => {
   const isActive = sortBy === field;
-
+  
   return (
-    <Th
-      className={cn("cursor-pointer select-none hover:bg-gray-50 transition-colors", className)}
+    <Th 
+      className={cn(
+        "cursor-pointer select-none hover:bg-gray-50 transition-colors",
+        className
+      )}
       onClick={() => onSort?.(field)}
-      title={
-        isActive ? (order === "asc" ? "Click to sort descending" : "Click to reset sort") : "Click to sort ascending"
+      title={isActive 
+        ? order === "asc" 
+          ? "Click to sort descending" 
+          : "Click to reset sort"
+        : "Click to sort ascending"
       }
     >
       <div className="flex items-center gap-2">
@@ -115,4 +117,12 @@ const SortableHeader = ({
   );
 };
 
-export { Table, THead, TBody, Th, Tr, Td, SortableHeader };
+export {
+  Table,
+  THead,
+  TBody,
+  Th,
+  Tr,
+  Td,
+  SortableHeader,
+}

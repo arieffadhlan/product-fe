@@ -1,29 +1,29 @@
-import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Plus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
-import ModalAction from "@/components/modals/modal-action";
 import { useModal } from "@/hooks/use-modal";
-import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 import { useModalStore } from "@/hooks/use-modal-store";
+import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
+import { Button } from "@/components/button";
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import { getErrorMessage } from "@/utils/error";
+import { useForm } from "react-hook-form";
+import ModalAction from "@/components/modals/modal-action";
+import { ProductSchema, ProductSchemaType } from "../product-validation";
 import { useCreateProduct } from "../api/create-product";
-import { ProductSchema, type ProductSchemaType } from "../product-validation";
+import { Input } from "@/components/input";
 
 export default function CreateProduct() {
   const modalCreate = useModal();
-  const modalSucces = useModalStore("modalSuccesProduct");
+  const modalSuccess = useModalStore("modalSuccessProduct");
   const modalFailed = useModalStore("modalFailedProduct");
   const modalSubmit = useModalConfirmStore("modalSubmitProduct");
 
   const mutation = useCreateProduct({});
-
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
+  
+  const { 
+    reset, 
+    register, 
+    handleSubmit, 
+    formState: { errors, isValid } 
   } = useForm<ProductSchemaType>({
     resolver: valibotResolver(ProductSchema),
     shouldFocusError: false,
@@ -35,7 +35,7 @@ export default function CreateProduct() {
   const handleCancel = () => {
     reset();
     modalCreate.hideModal();
-  };
+  }
 
   const handleUpdate = (data: ProductSchemaType) => {
     modalSubmit.handleConfirm({
@@ -48,34 +48,42 @@ export default function CreateProduct() {
 
           handleCancel();
           modalSubmit.hideModal();
-          modalSucces.openModal("Product has been successfully created.");
+          modalSuccess.openModal("Product has been successfully created.");
         } catch (error) {
           modalSubmit.hideModal();
           modalFailed.openModal(getErrorMessage(error));
         }
       },
     });
-  };
+  }
 
   return (
     <>
-      <Button size="md" text={"Add New Product"} icon={<Plus size={20} />} onClick={() => modalCreate.openModal()} />
-      <ModalAction heading="Add New Product" visible={modalCreate.visible} onClose={handleCancel} hideBtnClose>
+      <Button
+        size="md"
+        text={"Add New Product"}
+        icon={<Plus size={20}/>}
+        onClick={() => modalCreate.openModal()} 
+      />
+      <ModalAction 
+        heading="Add New Product" 
+        visible={modalCreate.visible} 
+        onClose={handleCancel}  
+        hideBtnClose
+      >
         <form onSubmit={handleSubmit(handleUpdate)} className="flex flex-col gap-5">
-          <Input placeholder="ex. Product Name" label="Title" error={errors.title?.message} {...register("title")} />
+          <Input 
+            placeholder="ex. Product Name"
+            label="Title"
+            error={errors.title?.message}
+            {...register("title")} 
+          />
           <div className="grid grid-cols-2 gap-3 w-full mt-2">
-            <Button
-              type="button"
-              text="Cancel"
-              variant="outline"
-              fullWidth
-              disabled={mutation.isPending}
-              onClick={handleCancel}
-            />
+            <Button type="button" text="Cancel" variant="outline" fullWidth disabled={mutation.isPending} onClick={handleCancel} />
             <Button type="submit" text="Submit" variant="primary" fullWidth disabled={mutation.isPending || !isValid} />
           </div>
         </form>
       </ModalAction>
     </>
-  );
+  )
 }

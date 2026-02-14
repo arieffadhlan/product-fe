@@ -1,36 +1,35 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/libs/api";
-import type { MutationConfig } from "@/libs/react-query";
+import { MutationConfig } from "@/libs/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
-interface DeleteProductResponse {
+const deleteProduct = ({ 
+  id,
+}: { 
   id: number;
-  isDeleted: boolean;
-  deletedOn: string;
-}
-
-const deleteProduct = async ({ id }: { id: number }): Promise<DeleteProductResponse> => {
-  const response = await api.delete<DeleteProductResponse>(`/products/${id}`);
-  return response.data;
-};
+}): Promise<void> => {
+  return api.delete(`/products/${id}`);
+} 
 
 type UseDeleteProductOptions = {
   mutationConfig?: MutationConfig<typeof deleteProduct>;
-};
+}
 
-const useDeleteProduct = ({ mutationConfig }: UseDeleteProductOptions = {}) => {
+const useDeleteProduct = ({ mutationConfig }: UseDeleteProductOptions) => {
   const queryClient = useQueryClient();
   const { onSuccess, ...rest } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === "products",
+        predicate: (query) =>
+          Array.isArray(query.queryKey) &&
+          query.queryKey[0] === "products",
       });
       onSuccess?.(...args);
     },
     ...rest,
     mutationFn: deleteProduct,
   });
-};
+}
 
 export { deleteProduct, useDeleteProduct };

@@ -6,7 +6,7 @@ import { getAllQueryParams } from "@/utils/url";
 
 interface PaginationProps {
   data?: IPaginationProps;
-  loading?: boolean;
+  isLoading?: boolean;
 }
 
 const PaginationButton = ({
@@ -27,13 +27,13 @@ const PaginationButton = ({
   </button>
 );
 
-export default function Pagination({ data, loading }: PaginationProps) {
+export default function Pagination({ data, isLoading }: PaginationProps) {
   const allParams = getAllQueryParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (!allParams.skip) searchParams.set("skip", "0");
     if (!allParams.limit) searchParams.set("limit", "10");
+    if (!allParams.skip) searchParams.set("skip", "0");
     if (!allParams.skip || !allParams.limit) {
       setSearchParams(searchParams);
     }
@@ -53,7 +53,7 @@ export default function Pagination({ data, loading }: PaginationProps) {
     return { page: currentPage, totalPages, hasPrev, hasNext, prevSkip, nextSkip, limit };
   }, [data]);
 
-  if (loading || !paginationInfo || paginationInfo.totalPages === 0) return null;
+  if (isLoading || !paginationInfo || paginationInfo.totalPages === 0) return null;
 
   const { page, totalPages, hasPrev, hasNext, prevSkip, nextSkip, limit } = paginationInfo;
 

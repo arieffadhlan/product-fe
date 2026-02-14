@@ -15,7 +15,6 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor - Add access token to requests
 api.interceptors.request.use(
   (config) => {
     const token = cookieStorage.getAccessToken();

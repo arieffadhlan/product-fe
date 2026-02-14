@@ -1,23 +1,24 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/libs/api";
-import type { MutationConfig } from "@/libs/react-query";
-import type { IProductProps } from "../product";
-import type { ProductSchemaType } from "../product-validation";
+import { MutationConfig } from "@/libs/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
-const updateProduct = async ({
+import { IProductProps } from "../product";
+import { ProductSchemaType } from "../product-validation";
+
+const updateProduct = async ({ 
   id,
   updatedData,
-}: {
+}: { 
   id: number;
   updatedData: ProductSchemaType;
 }): Promise<IProductProps> => {
   const response = await api.put<IProductProps>(`/products/${id}`, updatedData);
   return response.data;
-};
+} 
 
 type UseUpdateProductOptions = {
   mutationConfig?: MutationConfig<typeof updateProduct>;
-};
+}
 
 const useUpdateProduct = ({ mutationConfig }: UseUpdateProductOptions = {}) => {
   const queryClient = useQueryClient();
@@ -26,13 +27,15 @@ const useUpdateProduct = ({ mutationConfig }: UseUpdateProductOptions = {}) => {
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        predicate: (query) => Array.isArray(query.queryKey) && query.queryKey[0] === "products",
+        predicate: (query) =>
+          Array.isArray(query.queryKey) &&
+          query.queryKey[0] === "products"
       });
       onSuccess?.(...args);
     },
     ...rest,
     mutationFn: updateProduct,
   });
-};
+}
 
 export { updateProduct, useUpdateProduct };

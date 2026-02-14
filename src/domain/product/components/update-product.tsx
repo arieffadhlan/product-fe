@@ -1,44 +1,50 @@
-import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
 import ModalAction from "@/components/modals/modal-action";
-import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 import { useModalStore } from "@/hooks/use-modal-store";
+import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import { getErrorMessage } from "@/utils/error";
+import { Button } from "@/components/button";
+import { ProductSchema, ProductSchemaType } from "../product-validation";
 import { useProductDetail } from "../api/detail-product";
 import { useUpdateProduct } from "../api/update-product";
-import { ProductSchema, type ProductSchemaType } from "../product-validation";
+import { Input } from "@/components/input";
 
-export default function UpdateProduct({ id, handleClosed }: { id: number; handleClosed: () => void }) {
+export default function UpdateProduct({ 
+  id, 
+  handleClosed, 
+}: { 
+  id: number; 
+  handleClosed: () => void; 
+}) {
   const mutation = useUpdateProduct({});
-  const { data: details, isLoading: detailsLoading } = useProductDetail({
-    id,
-    queryConfig: { enabled: !!id },
+  const { data: details, isLoading: detailsLoading } = useProductDetail({ 
+    id, 
+    queryConfig: { enabled: !!id } 
   });
-
-  const modalSucces = useModalStore("modalSuccesProduct");
+  
+  const modalSuccess = useModalStore("modalSuccessProduct");
   const modalFailed = useModalStore("modalFailedProduct");
   const modalSubmit = useModalConfirmStore("modalSubmitProduct");
-
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
+  
+  const { 
+    reset, 
+    register, 
+    handleSubmit, 
+    formState: { errors, isValid } 
   } = useForm<ProductSchemaType>({
     resolver: valibotResolver(ProductSchema),
     mode: "onSubmit",
     reValidateMode: "onSubmit",
     shouldFocusError: false,
     shouldUnregister: false,
-    values: details ? { ...details } : undefined,
+    values: details ? { ...details } : undefined
   });
 
   const handleCancel = () => {
     reset();
     handleClosed();
-  };
+  }
 
   const handleUpdate = (updatedData: ProductSchemaType) => {
     modalSubmit.handleConfirm({
@@ -51,37 +57,35 @@ export default function UpdateProduct({ id, handleClosed }: { id: number; handle
 
           handleCancel();
           modalSubmit.hideModal();
-          modalSucces.openModal("Product has been successfully updated.");
+          modalSuccess.openModal("Product has been successfully updated.");
         } catch (error) {
           modalSubmit.hideModal();
           modalFailed.openModal(getErrorMessage(error));
         }
       },
     });
-  };
-
+  }
+  
   return (
-    <ModalAction visible={true} onClose={handleCancel} heading="Update Product" hideBtnClose>
+    <ModalAction 
+      visible={true} 
+      onClose={handleCancel} 
+      heading="Update Product" 
+      hideBtnClose
+    >
       <form onSubmit={handleSubmit(handleUpdate)} className="flex flex-col gap-5">
-        <Input
+        <Input 
           disabled={detailsLoading}
           placeholder={detailsLoading ? "Load data..." : "ex. Product Name"}
           label="Title"
           error={errors.title?.message}
-          {...register("title")}
+          {...register("title")} 
         />
         <div className="grid grid-cols-2 gap-3 w-full mt-2">
-          <Button
-            type="button"
-            text="Cancel"
-            variant="outline"
-            fullWidth
-            disabled={mutation.isPending}
-            onClick={handleCancel}
-          />
+          <Button type="button" text="Cancel" variant="outline" fullWidth disabled={mutation.isPending} onClick={handleCancel} />
           <Button type="submit" text="Update" variant="primary" fullWidth disabled={mutation.isPending || !isValid} />
         </div>
       </form>
     </ModalAction>
-  );
+  )
 }
