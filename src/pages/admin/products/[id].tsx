@@ -78,7 +78,6 @@ export default function ProductDetail() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Images */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg border border-gray-200 p-4">
               <img src={product.thumbnail} alt={product.title} className="w-full h-64 object-cover rounded-lg mb-4" />
@@ -95,9 +94,7 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Right Column - Details */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Basic Info */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Product Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -156,13 +153,11 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Description */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Description</h2>
               <p className="text-gray-700 leading-relaxed">{product.description}</p>
             </div>
 
-            {/* Additional Details */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Additional Details</h2>
               <div className="space-y-3">
@@ -195,7 +190,6 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Tags */}
             {product.tags && product.tags.length > 0 && (
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Tags</h2>
@@ -209,7 +203,6 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Reviews */}
             {product.reviews && product.reviews.length > 0 && (
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Reviews</h2>
@@ -233,7 +226,6 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Metadata */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Metadata</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -2,7 +2,6 @@ export interface IAuthProps {
   id: number;
   gender: string;
   firstName: string;
-  refreshToken: string;
   email: string;
   image: string;
   username: string;

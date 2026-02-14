@@ -143,18 +143,10 @@ Use any of the DummyJSON test accounts:
 
 [See all test users](https://dummyjson.com/users)
 
-
-## 🔌 API Integration
-
-### Base URL
-- **Development**: Proxied through Vite to avoid CORS
-- **Production**: Direct to `https://dummyjson.com`
-
 ### Endpoints Used
 
 **Authentication**
 - `POST /auth/login` - User login
-- `POST /auth/refresh` - Token refresh
 
 **Products**
 - `GET /products` - List products (with pagination, search, sort)
