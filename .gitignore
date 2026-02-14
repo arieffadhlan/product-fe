@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+bun-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependency
+bun.lockb
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+.tanstack
+*.suo
+*.sln
+*.sw?
+*.ntvs*
+*.njsproj
+
+coverage/
